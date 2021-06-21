@@ -46,12 +46,12 @@ router.delete("/meal/:id",async(req,res)=>{
 
 // get meal
 router.get("/meal",async(req,res)=>{
-    try{
-        const getMeal=await Meal.find()
-        res.send(getMeal)
-    }catch(e){
-        res.send(e)
-    }
+    const date = req.query.date
+    console.log(date)
+    const sort = req.query.sort
+    const result = await Meal.find({date:date}).sort({time:1})
+    console.log(date, result)
+    res.send(result)
 })
 
 

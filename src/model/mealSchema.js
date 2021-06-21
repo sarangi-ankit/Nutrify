@@ -22,8 +22,8 @@ const mealSchema=new Schema({
         required:true
     },
     date:{
-        type: Date,
-		default: Date.now,
+        type:String,
+        default:new Date().toLocaleDateString().replace(/\//g, '-')
     }
 
 })
