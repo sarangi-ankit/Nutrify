@@ -1,6 +1,6 @@
 const express=require("express")
 const app=express()
-const port=4000
+const port=3000
 
 app.use(express.json())
 
@@ -17,9 +17,7 @@ app.get("/signup",(req,res)=>{
     res.send("welcome to my signup page")
 })
 
-app.get("/signin",(req,res)=>{
-    res.send("welcome to my signin page")
-})
+
 
 app.listen(port,()=>{
     console.log(`server is running on port ${port}`)

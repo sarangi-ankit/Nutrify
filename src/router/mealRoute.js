@@ -1,6 +1,7 @@
 const express=require("express")
 const router=express.Router()
 require("../db/conn")
+const auth=require("../middleware/auth")
 
 const Meal=require("../model/mealSchema")
 
@@ -9,7 +10,7 @@ const Meal=require("../model/mealSchema")
 // create meal
 router.post("/meal",async(req,res)=>{
     try{
-        // console.log(req.body)
+        console.log(req.body)
         const user=new Meal(req.body)
         const saveMeal=await user.save()
         res.send(saveMeal)
@@ -18,6 +19,7 @@ router.post("/meal",async(req,res)=>{
     }
     
 })
+
 
 // update meal
 router.patch("/meal/:id",async(req,res)=>{
@@ -45,7 +47,7 @@ router.delete("/meal/:id",async(req,res)=>{
 
 
 // get meal
-router.get("/meal",async(req,res)=>{
+router.get("/meal",auth,async(req,res)=>{
     const date = req.query.date
     console.log(date)
     const sort = req.query.sort

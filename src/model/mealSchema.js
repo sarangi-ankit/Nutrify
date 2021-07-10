@@ -6,9 +6,8 @@ const Schema=mongoose.Schema
 
 // create schema
 const mealSchema=new Schema({
-    id:{
-        type:Number,
-        unique:true,
+    type:{
+        type:String,
         required:true
     },
     name:{
@@ -16,6 +15,10 @@ const mealSchema=new Schema({
         required:true,
         minlength:2,
         maxlength:200
+    },
+    description:{
+        type:String,
+        required:true
     },
     calories:{
         type:Number,
