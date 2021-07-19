@@ -42,7 +42,7 @@ function Signup() {
             window.alert("registration successful")
             console.log("registration successful")
 
-            history.push("/Dashbord")
+            history.push("/")
         }
     }
 

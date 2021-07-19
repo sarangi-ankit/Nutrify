@@ -1,18 +1,21 @@
 import React,{useState} from 'react'
+// import axios from "axios";
+// import Navbar from '../layout/Navbar';
 import {useHistory} from "react-router-dom"
-// import DatePicker from "react-datepicker"
+import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
+// import cookie from "js-cookie"
 
 export default function CreateMeal() {
     const history=useHistory()
 
-    // const [startDate, setStartDate] = useState(new Date());
+    const [startDate, setStartDate] = useState(new Date());
     const [meal,setMeal]=useState({
         type:"",
         name:"",
         description:"",
         calories:"",
-        // date:new Date()
+        date:new Date()
 
     })
     let name,value
@@ -26,7 +29,7 @@ export default function CreateMeal() {
     const handleClick=async(e)=>{
         e.preventDefault()
         const{type,name,description,calories}=meal
-
+        // const token=cookie.get("token")
         const res = await fetch('/meal',{
             method:'POST',
             headers: {
@@ -48,6 +51,32 @@ export default function CreateMeal() {
             history.push("/Dashbord")
         }
     }
+    // const fetchbtn=async(e)=>{
+    //     e.preventDefault()
+    //     axios({
+    //         method: "post",
+    //         url: "https://trackapi.nutritionix.com/v2/natural/nutrients",
+    //         data: {
+    //           query:meal.name,
+    //         },
+    //         headers: {
+    //           "x-app-id": "c953a9cf",
+    //           "x-app-key": "6fdb7bb65413fe141e6bad1237c9f2b0",
+    //         },
+    //       })
+    //         .then((res) => {
+    //             console.log(res)
+    //           // if successfull set calorie
+    //           setMeal({calories:res.data.foods[0].nf_calories})
+    //         })
+    //         .catch((err) => {
+    //             console.log(err)
+    //           // else throw error
+    //           setMeal({calories:"Sorry! you have to set manually" })
+    //         });
+        
+        
+    // }
     return (
         
         <>
@@ -56,10 +85,10 @@ export default function CreateMeal() {
 
             <form className="meal-list" action="POST">
 
-            {/* <label className="food-list" htmlFor="Date">
+            <label className="food-list" htmlFor="Date">
                   Date
                </label><br />
-                <DatePicker className="date-choice" selected={startDate} onChange={(date) => setStartDate(date)} /><br /> */}
+                <DatePicker className="date-choice" selected={startDate} onChange={(date) => setStartDate(date)} /><br />
                <label className="food-list" htmlFor="Meal Type">
                   Meal type :
                </label><br />
@@ -79,6 +108,9 @@ export default function CreateMeal() {
                   calorie :
                </label><br />
                <input type="number" name="calories" value={meal.calories} onChange={handleSubmit}/>
+               {/* <button onClick={fetchbtn}>
+                    fetch from nutronix
+               </button><br /> */}
 
                 <input type="submit" onClick={handleClick}/>
             </form>  

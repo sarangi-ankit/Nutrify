@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import {useHistory} from "react-router-dom"
+import cookie from "js-cookie"
 
 
 
@@ -8,6 +9,7 @@ function Signin() {
 
     const [email,setEmail]=useState("")
     const [password,setPassword]=useState("")
+    
 
     const userLogin=async(e)=>{
         e.preventDefault()
@@ -22,6 +24,12 @@ function Signin() {
         })
         const data=await res.json()
         console.log(data)
+        cookie.set("token", data.token);
+        cookie.set("user_id", data._id);
+        cookie.set("max_calorie", data.calorie);
+        // cookie.set("username", data.username);
+        
+
         if (data.status===412 || !data){
             window.alert("invalid credential")
         }else{

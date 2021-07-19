@@ -3,9 +3,11 @@ import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Signedinlink from './Signedinlink';
 import Signedoutlink from './Signedoutlink';
+import cookie from "js-cookie";
 
 function Navbar() {
-    
+
+    const links=cookie.get("user_id")?<Signedinlink />:<Signedoutlink />
     return (
     <>
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -17,8 +19,7 @@ function Navbar() {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
 
             <ul className="navbar-nav ml-auto">
-                <Signedinlink />
-                <Signedoutlink />
+               {links}
             </ul>
             
         </div>

@@ -40,55 +40,35 @@ router.post("/signup", async (req,res)=>{
 // signin router
 router.post("/signin",async(req,res)=>{
     const {email,password}=req.body
-    if (!email || !password){
-        res.send("plz fill the field")
-    }
+
     try {
+        if (!email || !password){
+            throw new Error("pls fill the field")
+        }
         const emailExist=await User.findOne({email})
-        // const passwordExist=await User.findOne({password:password})
+        if (!emailExist){
+            throw new Error("email not exist")
+        }
+        const isMatch=bcrypt.compare(password,emailExist.password)
+        if (!isMatch){
+            throw new Error("invalid credential")
+        }
         
-        if (emailExist){
+        const token=await emailExist.generateToken()
+        console.log(token)
+        
+        res.cookie("jwtoken",token,{
+            expires:new Date(Date.now()+25892000000),
+            httpOnly:true
+        })
 
-            // secure password
-            const isMatch=bcrypt.compare(password,emailExist.password)
-            if (!isMatch){
-                res.status(400).json({error:"invalid credential"})
-            }
-            else{
-                res.status(200).json({message:"user signin successfully"})
-            }
-            
-            // token part
-            
-            
-            
-            const token=await emailExist.generateToken()
-            console.log(token)
+        return res.status(200).json({message:"login successful",token})
 
-            
-
-            // cookie part(store token)
-
-            // res.cookie("jwtoken",token,{
-            //     expires:new Date(Date.now()+25892000000),
-            //     httpOnly:true
-            // })
-
-            if (!passwordExist){
-                throw new Error("invalid credential")
-            }
-            else{
-                console.log("check")
-                res.json({message:"login successful"})
-            }
-        }
-        else{
-            return res.status(400).send("invalid login id")
-        }
     } catch (error) {
-       res.status(401).json({error:error.message})
-       console.log(error) 
+        console.log(error.message)
+        res.status(401).json({message:error.message})
     }
+
 })
 // router.get("/signin",auth,(req,res)=>{
 //     res.send("signin page")

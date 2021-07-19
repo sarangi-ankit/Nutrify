@@ -3,11 +3,11 @@ const User=require("../model/userSchema")
 
 const auth=async(req,res,next)=>{
     try {
-        const token = req.header('Authorization').replace('Basic ', '')
-        const data = jwt.verify(token, "mynameisankitsarangifullstackdeveloper")
+        const token = req.cookies.jwtoken
+        const verifyToken = jwt.verify(token, "mynameisankitsarangifullstackdeveloper")
 
         const user=await User.findOne({
-            _id:data._id,
+            _id:verifyToken._id,
             "tokens.token":token
         })
 
